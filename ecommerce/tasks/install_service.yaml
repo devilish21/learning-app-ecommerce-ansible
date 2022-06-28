@@ -1,0 +1,28 @@
+---
+- name: "setup firewalld"
+  hosts: all
+  become: yes
+  tasks:
+    - name: "Install firewalld - centos"
+      yum: name=firewalld state=present
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: "Install firewalld - ubuntu"
+      apt: name=firewalld state=present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: "start firewalld service"
+      service: name=firewalld state=started enabled=true
+   
+    - name: "restart server"
+      reboot:
+        reboot_timeout: 1800
+   
+    - name: "check the firewalld service status"
+      ansible.builtin.systemd:
+        name: firewalld
+      register: service_state
+
+    - name: "debug logs"
+      debug:
+        var: service_state.status.ActiveState
