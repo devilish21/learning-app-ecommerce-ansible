@@ -1,0 +1,6 @@
+---
+- name: "configure httpd"
+  command: sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
+
+- name: "reload service"
+  service: name=httpd state=restarted

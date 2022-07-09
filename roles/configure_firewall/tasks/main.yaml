@@ -1,0 +1,6 @@
+---
+- name: "adding port opening in firewall"
+  command: firewall-cmd --permanent --zone=public --add-port="{{ port }}"/tcp
+
+- name: "reload firewalld service"
+  command: firewall-cmd --reload

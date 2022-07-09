@@ -16,4 +16,4 @@
 
 - name: "Application status check"
   debug:
-    msg: service_state.status.ActiveState
+    var: service_state.status.ActiveState
