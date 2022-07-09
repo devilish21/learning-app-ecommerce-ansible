@@ -1,16 +1,16 @@
 ---
 - name: "Infrastructure setup"
-  hosts: all
+  hosts: localhost
   become: yes
   vars:
-    application:
-      - firewalld
-      - mariadb-server
-      - httpd
-      - php
-      - php-mysql
-  roles:
-    - role: install_applications
-      application: "{{ application }}"
+    application: [[firewalld,firewalld],[mariadb-server,mariadb],[httpd,httpd],[php,php],[php-mysql,php-mysql]]
+  tasks:
+    - include_role:
+        name: install_applications
+      vars:
+        application_name: "{{ item[0] }}"
+        server_name: "{{ item[1] }}"
+      with_items:
+        - "{{ application }}"
 
     

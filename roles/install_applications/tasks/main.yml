@@ -1,26 +1,31 @@
 ---
-- name: "Install {{ item }} - centos"
-  yum: name="{{ item }}" state=present
+- name: "fetch application name"
+  debug:
+    msg: "{{ application_name }}"
+
+- name: "fetch application name"
+  debug:
+    msg: "{{ server_name }}"
+
+- name: "Install {{ application_name }} - centos"
+  yum: name="{{ application_name }}" state=present
   when: ansible_facts['os_family'] == "RedHat"
-  with_items: application
 
-- name: "Install {{ item }} - ubuntu"
-  apt: name="{{ item }}" state=present
+- name: "Install {{ application_name }} - ubuntu"
+  apt: name="{{ application_name }}" state=present
   when: ansible_facts['os_family'] == "Debian"
-  with_items: application
 
-- name: "start {{ item }} service"
-  service: name="{{ item }}""state=started enabled=true
-  with_items: application
+- name: "start {{ server_name }} service"
+  service: name="{{ server_name }}""state=started enabled=true
 
 #- name: "restart server"
   #reboot:
     #reboot_timeout: 1800
-
-- name: "check the {{ item }} service status"
+- name: "check the {{ server_name }} service status"
   ansible.builtin.systemd:
-    name: "{{ item }}"
+    name: "{{ server_name }}"
   register: service_state
+
+- name: "Application status check"
   debug:
-    var: service_state.status.ActiveState
-  with_items: application
+    msg: service_state.status.ActiveState
