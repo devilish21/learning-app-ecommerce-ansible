@@ -3,10 +3,6 @@
   debug:
     msg: "{{ application_name }}"
 
-- name: "fetch application name"
-  debug:
-    msg: "{{ server_name }}"
-
 - name: "Install {{ application_name }} - centos"
   yum: name="{{ application_name }}" state=present
   when: ansible_facts['os_family'] == "RedHat"
@@ -16,18 +12,3 @@
   apt: name="{{ application_name }}" state=present
   when: ansible_facts['os_family'] == "Debian"
   ignore_errors: yes
-
-- name: "start {{ server_name }} service"
-  service: name="{{ server_name }}" state=started enabled=true
-
-#- name: "restart server"
-  #reboot:
-    #reboot_timeout: 1800
-- name: "check the {{ server_name }} service status"
-  ansible.builtin.systemd:
-    name: "{{ server_name }}"
-  register: service_state
-
-- name: "Application status check"
-  debug:
-    msg: service_state.status.ActiveState
