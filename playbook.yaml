@@ -1,0 +1,16 @@
+---
+- name: "Infrastructure setup"
+  hosts: all
+  become: yes
+  vars:
+    application:
+      - firewalld
+      - mariadb-server
+      - httpd
+      - php
+      - php-mysql
+  roles:
+    - role: install_applications
+      application: "{{ application }}"
+
+    
