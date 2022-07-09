@@ -3,7 +3,8 @@
   hosts: localhost
   become: yes
   vars:
-    application: [[firewalld,firewalld],[mariadb-server,mariadb],[httpd,httpd],[php,php],[php-mysql,php-mysql]]
+    # provide application name and service name
+    application: [[firewalld,firewalld],[mariadb-server,mariadb],[apache2,apache2],[php,php],[php-mysql,php-mysql]]
   tasks:
     - include_role:
         name: install_applications
