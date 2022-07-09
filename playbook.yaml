@@ -4,14 +4,21 @@
   become: yes
   vars:
     # provide application name and service name
-    application: [[firewalld,firewalld],[mariadb-server,mariadb],[apache2,apache2],[php,php],[php-mysql,php-mysql]]
+    application: [firewalld,mariadb-server,apache2,php,php-mysql,git]
+    service: [firewalld,mariadb,apache2]
   tasks:
     - include_role:
         name: install_applications
       vars:
-        application_name: "{{ item[0] }}"
-        server_name: "{{ item[1] }}"
+        application_name: "{{ item }}"
       with_items:
         - "{{ application }}"
+
+    - include_role:
+        name: enable_service
+      vars:
+        service_name: "{{ item }}"
+      with_items:
+        - "{{ service }}"
 
     

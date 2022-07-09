@@ -1,0 +1,19 @@
+---
+- name: "fetch application name"
+  debug:
+    msg: "{{ service_name }}"
+
+- name: "start {{ service_name }} service"
+  service: name="{{ service_name }}" state=started enabled=true
+
+#- name: "restart server"
+  #reboot:
+    #reboot_timeout: 1800
+- name: "check the {{ service_name }} service status"
+  ansible.builtin.systemd:
+    name: "{{ service_name }}"
+  register: service_state
+
+- name: "Application status check"
+  debug:
+    msg: service_state.status.ActiveState
