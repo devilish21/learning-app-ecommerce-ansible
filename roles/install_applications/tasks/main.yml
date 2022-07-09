@@ -16,7 +16,7 @@
   when: ansible_facts['os_family'] == "Debian"
 
 - name: "start {{ server_name }} service"
-  service: name="{{ server_name }}""state=started enabled=true
+  service: name="{{ server_name }}" state=started enabled=true
 
 #- name: "restart server"
   #reboot:
